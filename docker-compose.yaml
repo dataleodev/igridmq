@@ -26,9 +26,24 @@ services:
       - mosquitto-logs:/mosquitto/log
     networks:
       - igrid-base-net
+  postges:
+    container_name: postgres
+    image: postgres
+    restart: on-failure
+    ports:
+      - '5432:5432'
+    networks:
+      - igrid-base-net
+    environment:
+      POSTGRES_PASSWORD: ${BP_POSTGRES_PASSWORD}
+      POSTGRES_USER: ${BP_POSTGRES_USER}
+      POSTGRES_DB: ${BP_POSTGRES_DB}
+    volumes:
+      - registry-postgres-volume:/var/lib/postgresql/data
 volumes:
   mosquitto-logs:
   mosquitto-conf:
   mosquitto-data:
+  registry-postgres-volume:
 networks:
   igrid-base-net:
